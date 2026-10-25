@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ПРАВОСФЕРА — законодательство России</title>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg-2: #10141c;
+    --surface: #141a24;
+    --surface-2: #1a2230;
+    --text: #e8edf5;
+    --muted: #8b97aa;
+    --line: #2a3444;
+    --accent: #6ea8fe;
+    --accent-soft: rgba(110,168,254,.14);
+    --danger: #ff6b6b;
+    --radius: 16px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --font: ui-sans-serif, system-ui, -apple-system, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; border: none; background: none; }
+  a { color: var(--accent); text-decoration: none; }
+  .hidden { display: none !important; }
+
+  /* ---------- WELCOME ---------- */
+  #welcome {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; flex-direction: column;
+    padding: calc(20px + var(--safe-top)) 24px calc(28px + var(--safe-bottom));
+    background: radial-gradient(circle at 50% 0%, #121826 0%, #0a0c10 70%);
+    overflow: hidden;
+    transition: opacity .5s ease, visibility .5s ease;
+  }
+  #welcome.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  .welcome-svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .draw {
+    fill: none;
+    stroke: #9fb6d4;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    animation: draw 2.4s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .draw:nth-child(2) { animation-delay: .2s; }
+  .draw:nth-child(3) { animation-delay: .4s; }
+  .draw:nth-child(4) { animation-delay: .6s; }
+  .draw:nth-child(5) { animation-delay: .8s; }
+  .draw:nth-child(6) { animation-delay: 1s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  .glow-dot {
+    fill: var(--accent);
+    opacity: 0;
+    animation: dotIn .6s ease 2.2s forwards;
+  }
+  @keyframes dotIn { to { opacity: 1; } }
+
+  .welcome-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    height: 100%;
+  }
+  .brand {
+    font-size: 13px; letter-spacing: .34em; text-transform: uppercase;
+    color: var(--muted); opacity: 0;
+    animation: fadeUp .8s ease .6s forwards;
+  }
+  .welcome-main {
+    margin: auto 0; max-width: 720px;
+  }
+  .welcome-main h1 {
+    font-size: clamp(32px, 9vw, 64px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    font-weight: 650;
+    margin: 0 0 18px;
+    opacity: 0;
+    animation: fadeUp .9s ease 1s forwards;
+  }
+  .welcome-main p {
+    font-size: clamp(15px, 4vw, 18px);
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 0 36px;
+    opacity: 0;
+    animation: fadeUp .9s ease 1.25s forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-watch {
+    align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 16px 30px;
+    border-radius: 999px;
+    background: #f5f7fb;
+    color: #0a0c10;
+    font-weight: 650;
+    font-size: 17px;
+    letter-spacing: -.01em;
+    opacity: 0;
+    animation: fadeUp .8s ease 1.6s forwards;
+    transition: transform .18s ease, box-shadow .18s ease;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 18px 50px -12px rgba(110,168,254,.35);
+  }
+  .btn-watch:hover { transform: translateY(-2px); }
+  .btn-watch:active { transform: scale(.97); }
+  .btn-watch svg { width: 20px; height: 20px; }
+
+  /* ---------- APP ---------- */
+  #app { min-height: 100dvh; display: flex; flex-direction: column; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; gap: 12px;
+    padding: calc(12px + var(--safe-top)) 16px 12px;
+    background: rgba(10,12,16,.82);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; letter-spacing: .18em;
+  }
+  .logo svg { width: 22px; height: 22px; }
+  .topbar-spacer { flex: 1; }
+  .icon-btn {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: grid; place-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--text);
+    transition: background .15s ease;
+  }
+  .icon-btn:active { background: var(--surface-2); }
+  .icon-btn svg { width: 20px; height: 20px; }
+
+  .container { width: 100%; max-width: 960px; margin: 0 auto; padding: 24px 16px 120px; }
+
+  .hero { padding: 24px 0 28px; }
+  .hero h2 {
+    font-size: clamp(26px, 7vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    margin: 0 0 10px;
+    font-weight: 650;
+  }
+  .hero p { color: var(--muted); margin: 0 0 22px; font-size: 15px; }
+
+  .search-box {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 8px 8px 8px 16px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .search-box:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .search-box svg { width: 20px; height: 20px; color: var(--muted); flex: none; }
+  .search-box input {
+    flex: 1; min-width: 0;
+    background: transparent; border: none; outline: none;
+    font-size: 16px; padding: 12px 0;
+  }
+  .search-box input::placeholder { color: #5f6b7d; }
+  .btn-primary {
+    background: var(--accent); color: #06101f;
+    font-weight: 650; font-size: 15px;
+    padding: 12px 20px; border-radius: 12px;
+    white-space: nowrap;
+    transition: filter .15s ease, transform .12s ease;
+  }
+  .btn-primary:active { transform: scale(.97); }
+  .btn-primary:disabled { opacity: .5; cursor: default; }
+
+  .section-title {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 32px 0 14px;
+  }
+  .section-title h3 { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0; }
+
+  .doc-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 640px) { .doc-grid { grid-template-columns: 1fr 1fr; } }
+
+  .doc-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: border-color .15s ease, background .15s ease;
+    text-align: left; width: 100%;
+  }
+  .doc-card:hover { border-color: #3a4a62; background: var(--surface-2); }
+  .doc-icon {
+    width: 44px; height: 44px; flex: none;
+    border-radius: 12px; display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .doc-icon svg { width: 22px; height: 22px; }
+  .doc-info { min-width: 0; flex: 1; }
+  .doc-info strong { display: block; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .doc-info span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+  .result-card {
+    padding: 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    transition: border-color .15s ease;
+    text-align: left; width: 100%;
+  }
+  .result-card:hover { border-color: #3a4a62; }
+  .result-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .pill {
+    font-size: 11px; padding: 3px 8px; border-radius: 999px;
+    background: var(--surface-2); color: var(--muted);
+    border: 1px solid var(--line);
+  }
+  .pill.official { color: #7ee2a8; border-color: rgba(126,226,168,.3); background: rgba(126,226,168,.08); }
+  .pill.warn { color: #ffd479; border-color: rgba(255,212,121,.25); background: rgba(255,212,121,.07); }
+  .result-card h4 { margin: 0 0 6px; font-size: 16px; line-height: 1.3; }
+  .result-card p { margin: 0; font-size: 14px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .empty-state {
+    text-align: center; padding: 48px 20px;
+    color: var(--muted);
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+  }
+  .empty-state svg { width: 40px; height: 40px; margin-bottom: 12px; opacity: .6; }
+
+  .notice {
+    padding: 12px 16px; border-radius: 12px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(110,168,254,.25);
+    color: #b8d2ff; font-size: 13px; line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  /* ---------- ARTICLE ---------- */
+  .article-header { margin-bottom: 22px; }
+  .breadcrumb { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .article-header h2 { margin: 0 0 8px; font-size: clamp(22px, 6vw, 30px); line-height: 1.2; }
+  .article-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .article-body {
+    font-size: 16px; line-height: 1.75;
+    white-space: pre-wrap;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 18px 0;
+    user-select: text;
+  }
+  .article-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 16px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--line);
+    font-size: 14px; font-weight: 550;
+  }
+  .btn-secondary:active { background: var(--surface-2); }
+  .btn-secondary svg { width: 17px; height: 17px; }
+
+  .explain-box {
+    background: linear-gradient(180deg, rgba(110,168,254,.07), transparent);
+    border: 1px solid rgba(110,168,254,.22);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 18px 0;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  .explain-box .label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: block; }
+  .disclaimer { font-size: 12px; color: var(--muted); margin-top: 14px; line-height: 1.5; }
+
+  .article-nav {
+    display: flex; justify-content: space-between; gap: 10px;
+    margin-top: 22px;
+  }
+  .article-nav button {
+    flex: 1; padding: 13px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--line);
+    font-size: 14px; text-align: center;
+  }
+  .article-nav button:disabled { opacity: .35; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: calc(20px + var(--safe-bottom));
+    transform: translateX(-50%) translateY(20px);
+    background: #f5f7fb; color: #0a0c10;
+    padding: 10px 18px; border-radius: 999px;
+    font-size: 13px; font-weight: 600;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+    z-index: 100;
+    max-width: calc(100vw - 32px);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .skeleton {
+    height: 90px; border-radius: var(--radius);
+    background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s infinite;
+    margin-bottom: 10px;
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= WELCOME ================= -->
+<section id="welcome" aria-label="Приветственный экран">
+  <svg class="welcome-svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path class="draw" d="M-20 140 L200 60 L420 140" />
+    <path class="draw" d="M-20 260 L200 180 L420 260" />
+    <path class="draw" d="M-20 420 L200 340 L420 420" />
+    <path class="draw" d="M60 60 L60 740" />
+    <path class="draw" d="M340 60 L340 740" />
+    <path class="draw" d="M200 120 L200 680" />
+    <circle class="glow-dot" cx="200" cy="180" r="3" />
+    <circle class="glow-dot" cx="200" cy="340" r="3" style="animation-delay:2.4s" />
+  </svg>
+
+  <div class="welcome-content">
+    <div class="brand">ПРАВОСФЕРА · LEGAL INTELLIGENCE</div>
+    <div class="welcome-main">
+      <h1>Всё законодательство России. В одном пространстве.</h1>
+      <p>Находите нормы права, изучайте статьи и разбирайтесь в законодательстве с помощью искусственного интеллекта.</p>
+      <button class="btn-watch" id="watchBtn" type="button">
+        Смотреть
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v20M4 6l8-4 8 4M4 18l8 4 8-4M7 9v6M17 9v6"/>
+      </svg>
+      ПРАВОСФЕРА
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="icon-btn" id="homeBtn" type="button" aria-label="На главную">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5"/></svg>
+    </button>
+  </header>
+
+  <main class="container" id="mainContent"></main>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script type="module">
+/* ============================================================
+   ПРАВОСФЕРА — клиентская логика
+   ============================================================ */
+const $ = (sel, root = document) => root.querySelector(sel);
+const welcome = $('#welcome');
+const app = $('#app');
+const main = $('#mainContent');
+const toastEl = $('#toast');
+
+const state = {
+  view: 'home',
+  docs: [],
+  doc: null,
+  articles: [],
+  article: null,
+  lastResults: null,
+};
+
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toastEl.classList.remove('show'), 2600);
+}
+
+function esc(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (m) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[m]));
+}
+
+async function api(path, opts) {
+  const res = await fetch(path, opts);
+  if (!res.ok) {
+    let detail = '';
+    try { detail = (await res.json()).error || ''; } catch { /* ignore */ }
+    throw new Error(detail || `Ошибка ${res.status}`);
+  }
+  return res.json();
+}
+
+/* ---------- Переход с приветственного экрана ---------- */
+$('#watchBtn').addEventListener('click', () => {
+  const btn = $('#watchBtn');
+  btn.style.transform = 'scale(.94)';
+  btn.style.opacity = '.7';
+
+  setTimeout(() => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        welcome.classList.add('gone');
+        app.classList.remove('hidden');
+        renderHome();
+      });
+    } else {
+      welcome.classList.add('gone');
+      app.classList.remove('hidden');
+      renderHome();
+    }
+  }, 180);
+});
+
+/* ---------- Роутинг (hash) ---------- */
+window.addEventListener('hashchange', route);
+
+function navigate(hash) {
+  if (location.hash === hash) route();
+  else location.hash = hash;
+}
+
+async function route() {
+  const hash = location.hash.replace(/^#\/?/, '');
+  const parts = hash.split('/').filter(Boolean);
+
+  if (parts[0] === 'doc' && parts[1]) {
+    await openDocument(parts[1]);
+  } else if (parts[0] === 'article' && parts[1]) {
+    await openArticle(parts[1]);
+  } else {
+    await renderHome();
+  }
+}
+
+/* ---------- Главная ---------- */
+async function renderHome() {
+  state.view = 'home';
+  main.innerHTML = `
+    <section class="hero">
+      <h2>Что вы хотите найти?</h2>
+      <p>Название закона, номер статьи или вопрос своими словами.</p>
+      <form class="search-box" id="searchForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="searchInput" type="search" enterkeyhint="search" autocomplete="off"
+          placeholder="Например: что будет за кражу, штраф за парковку или статья 158 УК РФ…" />
+        <button class="btn-primary" type="submit">Найти</button>
+      </form>
+      <div id="searchNotice"></div>
+      <div id="searchResults" class="hidden" style="margin-top:22px"></div>
+    </section>
+    <div class="section-title"><h3>Законодательство</h3></div>
+    <div id="docList" class="doc-grid"><div class="skeleton"></div><div class="skeleton"></div></div>
+  `;
+
+  $('#searchForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    doSearch($('#searchInput').value);
+  });
+
+  try {
+    const docs = await api('/api/documents');
+    state.docs = docs;
+    renderDocList(docs);
+  } catch (err) {
+    $('#docList').innerHTML = `<div class="empty-state">Не удалось загрузить каталог. ${esc(err.message)}</div>`;
+  }
+}
+
+function renderDocList(docs) {
+  const el = $('#docList');
+  if (!docs.length) {
+    el.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/></svg>
+      <div>База законодательства ещё не загружена.</div>
+      <div style="font-size:13px;margin-top:8px">Выполните импорт официального файла через <code>npm run import</code>.</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML = docs.map((d) => `
+    <button class="doc-card" data-id="${esc(d.id)}" type="button">
+      <div class="doc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5M9 12h6M9 16h6"/></svg>
+      </div>
+      <div class="doc-info">
+        <strong>${esc(d.title)}</strong>
+        <span>${esc(d.doc_type)}${d.number ? ' · ' + esc(d.number) : ''}${d.current_version ? ' · ред. ' + esc(d.current_version) : ''}</span>
+      </div>
+    </button>
+  `).join('');
+
+  el.querySelectorAll('.doc-card').forEach((btn) => {
+    btn.addEventListener('click', () => navigate(`/doc/${btn.dataset.id}`));
+  });
+}
+
+/* ---------- Поиск ---------- */
+async function doSearch(q) {
+  q = String(q || '').trim();
+  if (!q) return;
+  const resultsEl = $('#searchResults');
+  const noticeEl = $('#searchNotice');
+  resultsEl.classList.remove('hidden');
+  resultsEl.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
+  noticeEl.innerHTML = '';
+
+  try {
+    const data = await api(`/api/search?q=${encodeURIComponent(q)}`);
+    state.lastResults = data;
+    renderSearchResults(data);
+  } catch (err) {
+    resultsEl.innerHTML = `<div class="empty-state">Ошибка поиска: ${esc(err.message)}</div>`;
+  }
+}
+
+function renderSearchResults(data) {
+  const el = $('#searchResults');
+  const notice = $('#searchNotice');
+  const parts = [];
+
+  if (data.notice) {
+    notice.innerHTML = `<div class="notice">${esc(data.notice)}</div>`;
+  }
+
+  if (data.exact?.length) {
+    parts.push(`<div class="section-title"><h3>Точное совпадение</h3></div>`);
+    parts.push(data.exact.map(resultCard).join(''));
+  }
+
+  if (data.articles?.length) {
+    parts.push(`<div class="section-title"><h3>Статьи</h3></div>`);
+    parts.push(data.articles.map(resultCard).join(''));
+  }
+
+  if (data.documents?.length) {
+    parts.push(`<div class="section-title"><h3>Документы</h3></div>`);
+    parts.push(data.documents.map((d) => `
+      <button class="result-card" data-doc="${esc(d.id)}" type="button">
+        <div class="result-meta">
+          <span class="pill">${esc(d.doc_type)}</span>
+          ${d.number ? `<span class="pill">${esc(d.number)}</span>` : ''}
+          ${d.is_official ? `<span class="pill official">официальный</span>` : ''}
+        </div>
+        <h4>${esc(d.title)}</h4>
+        <p>${esc(d.current_version || 'редакция не указана')}</p>
+      </button>
+    `).join(''));
+  }
+
+  if (!parts.length) {
+    el.innerHTML = `<div class="empty-state">По запросу «${esc(data.query)}» ничего не найдено. Попробуйте изменить формулировку.</div>`;
+    return;
+  }
+
+  el.innerHTML = parts.join('');
+
+  el.querySelectorAll('[data-article]').forEach((btn) => {
+    btn.addEventListener('click', () => navigate(`/article/${btn.dataset.article}`));
+  });
+  el.querySelectorAll('[data-doc]').forEach((btn) => {
+    btn.addEventListener('click', () => navigate(`/doc/${btn.dataset.doc}`));
+  });
+}
+
+function resultCard(a) {
+  const snippet = (a.body || '').replace(/\s+/g, ' ').slice(0, 220);
+  return `
+    <button class="result-card" data-article="${esc(a.id)}" type="button">
+      <div class="result-meta">
+        <span class="pill">${esc(a.document_title)}</span>
+        <span class="pill">ст. ${esc(a.article_number)}</span>
+        ${a.is_official ? `<span class="pill official">официальный</span>` : `<span class="pill warn">демонстрационные данные</span>`}
+        ${a.current_version ? `<span class="pill">${esc(a.current_version)}</span>` : ''}
+      </div>
+      <h4>${esc(a.article_title || 'Статья ' + a.article_number)}</h4>
+      <p>${esc(snippet)}${snippet.length >= 220 ? '…' : ''}</p>
+    </button>
+  `;
+}
+
+/* ---------- Документ ---------- */
+async function openDocument(id) {
+  state.view = 'doc';
+  main.innerHTML = `<div class="skeleton" style="height:60px"></div><div class="skeleton"></div>`;
+  try {
+    const data = await api(`/api/documents/${encodeURIComponent(id)}`);
+    state.doc = data.document;
+    state.articles = data.articles;
+    renderDocument();
+  } catch (err) {
+    main.innerHTML = `<div class="empty-state">${esc(err.message)}</div>`;
+  }
+}
+
+function renderDocument() {
+  const d = state.doc;
+  const arts = state.articles;
+  const byChapter = new Map();
+  for (const a of arts) {
+    const key = a.chapter || 'Без главы';
+    if (!byChapter.has(key)) byChapter.set(key, []);
+    byChapter.get(key).push(a);
+  }
+
+  main.innerHTML = `
+    <div class="article-header">
+      <div class="breadcrumb">Законодательство → ${esc(d.title)}</div>
+      <h2>${esc(d.title)}</h2>
+      <div class="article-meta">
+        <span class="pill">${esc(d.doc_type)}</span>
+        ${d.number ? `<span class="pill">${esc(d.number)}</span>` : ''}
+        ${d.current_version ? `<span class="pill">ред. ${esc(d.current_version)}</span>` : ''}
+        ${d.is_official ? `<span class="pill official">официальный источник</span>` : `<span class="pill warn">демонстрационные данные</span>`}
+        ${d.last_checked_at ? `<span class="pill">проверено ${esc(d.last_checked_at)}</span>` : ''}
+      </div>
+      ${d.source_url ? `<div style="margin-top:10px;font-size:13px">Источник: <a href="${esc(d.source_url)}" target="_blank" rel="noopener">${esc(d.source_url)}</a></div>` : ''}
+    </div>
+    ${arts.length ? [...byChapter.entries()].map(([chapter, list]) => `
+      <div class="section-title"><h3>${esc(chapter)}</h3></div>
+      ${list.map((a) => `
+        <button class="result-card" data-article="${esc(a.id)}" type="button">
+          <div class="result-meta"><span class="pill">ст. ${esc(a.article_number)}</span>${a.status !== 'active' ? `<span class="pill warn">${esc(a.status)}</span>` : ''}</div>
+          <h4>${esc(a.article_title || 'Статья ' + a.article_number)}</h4>
+        </button>
+      `).join('')}
+    `).join('') : `<div class="empty-state">В этом документе пока нет загруженных статей.</div>`}
+  `;
+
+  main.querySelectorAll('[data-article]').forEach((btn) => {
+    btn.addEventListener('click', () => navigate(`/article/${btn.dataset.article}`));
+  });
+}
+
+/* ---------- Статья ---------- */
+async function openArticle(id) {
+  state.view = 'article';
+  main.innerHTML = `<div class="skeleton" style="height:60px"></div><div class="skeleton" style="height:300px"></div>`;
+  try {
+    const a = await api(`/api/articles/${encodeURIComponent(id)}`);
+    state.article = a;
+    renderArticle(a);
+  } catch (err) {
+    main.innerHTML = `<div class="empty-state">${esc(err.message)}</div>`;
+  }
+}
+
+function renderArticle(a) {
+  main.innerHTML = `
+    <div class="article-header">
+      <div class="breadcrumb">Законодательство → ${esc(a.document_title)}${a.chapter ? ' → ' + esc(a.chapter) : ''} → Статья ${esc(a.article_number)}</div>
+      <h2>Статья ${esc(a.article_number)}. ${esc(a.article_title || '')}</h2>
+      <div class="article-meta">
+        <span class="pill">${esc(a.document_title)}</span>
+        ${a.current_version ? `<span class="pill">ред. ${esc(a.current_version)}</span>` : ''}
+        ${a.is_official ? `<span class="pill official">официальный</span>` : `<span class="pill warn">демонстрационные данные</span>`}
+        ${a.doc_status && a.doc_status !== 'active' ? `<span class="pill warn">${esc(a.doc_status)}</span>` : ''}
+        ${a.last_checked_at ? `<span class="pill">проверено ${esc(a.last_checked_at)}</span>` : ''}
+      </div>
+    </div>
+
+    <div class="article-actions">
+      <button class="btn-secondary" id="copyBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        Копировать текст
+      </button>
+      <button class="btn-secondary" id="explainBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a7 7 0 0 0-4 12.7V19h8v-3.3A7 7 0 0 0 12 3Z"/><path d="M9 22h6"/></svg>
+        Объяснить простыми словами
+      </button>
+      <button class="btn-secondary" id="shareBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+        Поделиться
+      </button>
+    </div>
+
+    <div id="explainContainer"></div>
+
+    <div class="article-body" id="articleText">${esc(a.body)}</div>
+
+    ${a.notes ? `<div class="notice"><strong>Примечания:</strong><br>${esc(a.notes)}</div>` : ''}
+
+    ${a.source_url ? `<div style="font-size:13px;margin:14px 0">Официальный источник: <a href="${esc(a.source_url)}" target="_blank" rel="noopener">${esc(a.source_url)}</a></div>` : ''}
+
+    <div class="article-nav">
+      <button id="backToDoc" type="button">← К документу</button>
+    </div>
+  `;
+
+  $('#copyBtn').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(a.body);
+      toast('Текст скопирован');
+    } catch {
+      toast('Не удалось скопировать');
+    }
+  });
+
+  $('#shareBtn').addEventListener('click', async () => {
+    const url = location.href;
+    try {
+      if (navigator.share) await navigator.share({ title: `Статья ${a.article_number}`, url });
+      else {
+        await navigator.clipboard.writeText(url);
+        toast('Ссылка скопирована');
+      }
+    } catch { /* пользователь отменил */ }
+  });
+
+  $('#backToDoc').addEventListener('click', () => navigate(`/doc/${a.document_id}`));
+
+  $('#explainBtn').addEventListener('click', async () => {
+    const container = $('#explainContainer');
+    const btn = $('#explainBtn');
+    btn.disabled = true;
+    container.innerHTML = `<div class="explain-box"><span class="label">ИИ-объяснение</span>Загрузка…</div>`;
+
+    try {
+      const data = await api('/api/explain', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ articleId: a.id }),
+      });
+      container.innerHTML = `
+        <div class="explain-box">
+          <span class="label">ИИ-объяснение · ${esc(data.documentTitle)} · ст. ${esc(data.articleNumber)}</span>
+          ${esc(data.explanation)}
+          <div class="disclaimer">${esc(data.disclaimer)}</div>
+        </div>
+      `;
+    } catch (err) {
+      container.innerHTML = `<div class="explain-box" style="border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.05)">
+        <span class="label" style="color:var(--danger)">ИИ недоступен</span>
+        ${esc(err.message)}
+        <div class="disclaimer">Оригинальный текст статьи остаётся доступным выше. Локальный поиск продолжает работать.</div>
+      </div>`;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+}
+
+/* ---------- Кнопка «На главную» ---------- */
+$('#homeBtn').addEventListener('click', () => navigate('/'));
+
+/* ---------- Старт ---------- */
+(async function boot() {
+  try {
+    const health = await api('/api/health');
+    if (!health.geminiConfigured) {
+      // Не блокируем интерфейс, но показываем статус в консоли
+      console.info('ПРАВОСФЕРА: Gemini не настроен. ИИ-объяснения будут недоступны.');
+    }
+  } catch { /* сервер может быть недоступен при открытии файла напрямую */ }
+})();
+</script>
+</body>
+</html>
