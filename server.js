@@ -7,6 +7,7 @@ import { GoogleGenAI } from '@google/genai';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
+import { importRealLaws } from './import-real.js'; // <--- ДОБАВЛЕН ИМПОРТ
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data', 'pravosfera.db');
@@ -57,6 +58,28 @@ app.get('/api/health', (_req, res) => {
     geminiConfigured: Boolean(geminiKey),
     geminiModel: geminiKey ? geminiModel : null,
   });
+});
+
+// ---------- АДМИНКА: ИМПОРТ ВСЕХ ЗАКОНОВ ----------
+app.get('/api/admin/import-all', async (_req, res) => {
+  try {
+    const result = await importRealLaws();
+    res.send(`
+      <div style="font-family: sans-serif; padding: 20px; text-align: center;">
+        <h2 style="color: green;">Успех!</h2>
+        <p>Загружено статей: <b>${result.count}</b></p>
+        <p><a href="/" style="display:inline-block; padding: 10px 20px; background: #6ea8fe; color: white; text-decoration: none; border-radius: 10px;">Вернуться на сайт</a></p>
+      </div>
+    `);
+  } catch (err) {
+    res.status(500).send(`
+      <div style="font-family: sans-serif; padding: 20px; text-align: center;">
+        <h2 style="color: red;">Ошибка импорта</h2>
+        <p>${err.message}</p>
+        <p><a href="/">Вернуться на сайт</a></p>
+      </div>
+    `);
+  }
 });
 
 // ---------- Поиск (локальный, без ИИ) ----------
