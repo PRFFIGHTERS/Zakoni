@@ -1,80 +1,1749 @@
-<!-- ================= ПОДЧАСТЬ 1.1: СТАТЬИ 1–10 (ПОДРОБНО) ================= -->
-        <div class="list-item" onclick="openArticle(1, 'Статья 1. Уголовное законодательство Российской Федерации', '1. Уголовное законодательство Российской Федерации состоит из настоящего Кодекса. Новые законы, предусматривающие уголовную ответственность, подлежат включению в настоящий Кодекс.<br><br>2. Настоящий Кодекс основывается на Конституции Российской Федерации и общепризнанных принципах и нормах международного права.')">
-            <div class="list-item-title">Статья 1. Уголовное законодательство Российской Федерации</div>
-        </div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <title>Законы и кодексы РФ</title>
+    <style>
+        /* ===== БАЗОВЫЕ СТИЛИ И ПЕРЕМЕННЫЕ ===== */
+        :root {
+            --bg: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-primary: #1c1c1e;
+            --text-secondary: #8e8e93;
+            --text-tertiary: #c7c7cc;
+            --border: rgba(60, 60, 67, 0.12);
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --radius-card: 18px;
+            --radius-sm: 12px;
+            --radius-pill: 50px;
+            --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --safe-bottom: env(safe-area-inset-bottom, 16px);
+            --safe-top: env(safe-area-inset-top, 0px);
+            --nav-height: 64px;
+            --transition: 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+            --accent: #007aff;
+            --danger: #ff3b30;
+            --success: #34c759;
+            --warning: #ff9500;
+        }
 
-        <div class="list-item" onclick="openArticle(2, 'Статья 2. Задачи Уголовного кодекса Российской Федерации', '1. Задачами настоящего Кодекса являются: охрана прав и свобод человека и гражданина, собственности, общественного порядка и общественной безопасности, окружающей среды, конституционного строя Российской Федерации от преступных посягательств, обеспечение мира и безопасности человечества, а также предупреждение преступлений.<br><br>2. Для осуществления этих задач настоящий Кодекс устанавливает основание и принципы уголовной ответственности, определяет, какие опасные для личности, общества или государства деяния признаются преступлениями, и устанавливает виды наказаний и иные меры уголовно-правового характера за совершение преступлений.')">
-            <div class="list-item-title">Статья 2. Задачи Уголовного кодекса Российской Федерации</div>
-        </div>
+        [data-theme="dark"] {
+            --bg: #000000;
+            --card-bg: #1c1c1e;
+            --text-primary: #ffffff;
+            --text-secondary: #8e8e93;
+            --text-tertiary: #48484a;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+            --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
 
-        <div class="list-item" onclick="openArticle(3, 'Статья 3. Принцип законности', '1. Преступность деяния, а также его наказуемость и иные уголовно-правовые последствия определяются только настоящим Кодексом.<br><br>2. Применение уголовного закона по аналогии не допускается.')">
-            <div class="list-item-title">Статья 3. Принцип законности</div>
-        </div>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        <div class="list-item" onclick="openArticle(4, 'Статья 4. Принцип равенства граждан перед законом', 'Лица, совершившие преступления, равны перед законом и подлежат уголовной ответственности независимо от пола, расы, национальности, языка, происхождения, имущественного и должностного положения, места жительства, отношения к религии, убеждений, принадлежности к общественным объединениям, а также других обстоятельств.')">
-            <div class="list-item-title">Статья 4. Принцип равенства граждан перед законом</div>
-        </div>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
 
-        <div class="list-item" onclick="openArticle(5, 'Статья 5. Принцип вины', '1. Лицо подлежит уголовной ответственности только за те общественно опасные действия (бездействие) и наступившие общественно опасные последствия, в отношении которых установлена его вина.<br><br>2. Объективное вменение, то есть уголовная ответственность за невиновное причинение вреда, не допускается.')">
-            <div class="list-item-title">Статья 5. Принцип вины</div>
-        </div>
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.45;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background var(--transition), color var(--transition);
+            overscroll-behavior: none;
+            touch-action: manipulation;
+        }
 
-        <div class="list-item" onclick="openArticle(6, 'Статья 6. Принцип справедливости', '1. Наказание и иные меры уголовно-правового характера, применяемые к лицу, совершившему преступление, должны быть справедливыми, то есть соответствовать характеру и степени общественной опасности преступления, обстоятельствам его совершения и личности виновного.<br><br>2. Никто не может нести уголовную ответственность дважды за одно и то же преступление.')">
-            <div class="list-item-title">Статья 6. Принцип справедливости</div>
-        </div>
+        /* ===== СКРОЛЛ-КОНТЕЙНЕР ===== */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
 
-        <div class="list-item" onclick="openArticle(7, 'Статья 7. Принцип гуманизма', '1. Уголовное законодательство Российской Федерации обеспечивает безопасность человека.<br><br>2. Наказание и иные меры уголовно-правового характера, применяемые к лицу, совершившему преступление, не могут иметь своей целью причинение физических страданий или унижение человеческого достоинства.')">
-            <div class="list-item-title">Статья 7. Принцип гуманизма</div>
-        </div>
+        .screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            animation: fadeIn 0.2s ease;
+        }
 
-        <div class="list-item" onclick="openArticle(8, 'Статья 8. Основание уголовной ответственности', 'Основанием уголовной ответственности является совершение деяния, содержащего все признаки состава преступления, предусмотренного настоящим Кодексом.')">
-            <div class="list-item-title">Статья 8. Основание уголовной ответственности</div>
-        </div>
+        .screen.active {
+            display: flex;
+        }
 
-        <div class="list-item" onclick="openArticle(9, 'Статья 9. Действие уголовного закона во времени', '1. Преступность и наказуемость деяния определяются уголовным законом, действовавшим во время совершения этого деяния.<br><br>2. Временем совершения преступления признается время совершения общественно опасного действия (бездействия) независимо от времени наступления последствий.')">
-            <div class="list-item-title">Статья 9. Действие уголовного закона во времени</div>
-        </div>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        <div class="list-item" onclick="openArticle(10, 'Статья 10. Обратная сила уголовного закона', '1. Уголовный закон, устраняющий преступность деяния, смягчающий наказание или иным образом улучшающий положение лица, совершившего преступление, имеет обратную силу, то есть распространяется на лиц, совершивших соответствующие деяния до вступления такого закона в силу, в том числе на лиц, отбывающих наказание или отбывших наказание, но имеющих судимость. Уголовный закон, устанавливающий преступность деяния, усиливающий наказание или иным образом ухудшающий положение лица, обратной силы не имеет.<br><br>2. Если новый уголовный закон смягчает наказание за деяние, которое отбывается лицом, то это наказание подлежит сокращению в пределах, предусмотренных новым уголовным законом.')">
-            <div class="list-item-title">Статья 10. Обратная сила уголовного закона</div>
-        </div>
-        <!-- ================= КОНЕЦ ПОДЧАСТИ 1.1 ================= -->
-<!-- ================= ЧАСТЬ 2: СТАТЬИ 11–20 (ПОДРОБНО) ================= -->
-        <div class="list-item" onclick="openArticle(11, 'Статья 11. Действие уголовного закона в отношении лиц, совершивших преступление на территории Российской Федерации', '1. Лицо, совершившее преступление на территории Российской Федерации, подлежит уголовной ответственности по настоящему Кодексу.<br><br>2. Преступления, совершенные в пределах территориального моря или воздушного пространства Российской Федерации, признаются совершенными на территории Российской Федерации. Действие настоящего Кодекса распространяется также на преступления, совершенные на континентальном шельфе и в исключительной экономической зоне Российской Федерации.<br><br>3. Лицо, совершившее преступление на судне, приписанном к порту Российской Федерации, находящемся в открытом водном или воздушном пространстве вне пределов Российской Федерации, подлежит уголовной ответственности по настоящему Кодексу, если иное не предусмотрено международным договором Российской Федерации. По настоящему Кодексу уголовную ответственность несет также лицо, совершившее преступление на военном корабле или военном воздушном судне Российской Федерации независимо от места их нахождения.<br><br>4. Вопрос об уголовной ответственности дипломатических представителей иностранных государств и иных граждан, которые пользуются иммунитетом, в случае совершения этими лицами преступления на территории Российской Федерации разрешается в соответствии с нормами международного права.')">
-            <div class="list-item-title">Статья 11. Действие уголовного закона в отношении лиц, совершивших преступление на территории Российской Федерации</div>
-        </div>
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: calc(16px + var(--safe-top)) 16px calc(100px + var(--safe-bottom)) 16px;
+        }
 
-        <div class="list-item" onclick="openArticle(12, 'Статья 12. Действие уголовного закона в отношении лиц, совершивших преступление вне пределов Российской Федерации', '1. Граждане Российской Федерации и постоянно проживающие в Российской Федерации лица без гражданства, совершившие вне пределов Российской Федерации преступление против интересов, охраняемых настоящим Кодексом, подлежат уголовной ответственности в соответствии с настоящим Кодексом, если в отношении этих лиц по данному преступлению не имеется решения суда иностранного государства.<br><br>2. Военнослужащие воинских частей Российской Федерации, дислоцирующихся за пределами Российской Федерации, за преступления, совершенные на территории иностранного государства, несут уголовную ответственность по настоящему Кодексу, если иное не предусмотрено международным договором Российской Федерации.<br><br>3. Иностранные граждане и лица без гражданства, не проживающие постоянно в Российской Федерации, совершившие преступление вне пределов Российской Федерации, подлежат уголовной ответственности по настоящему Кодексу в случаях, если преступление направлено против интересов Российской Федерации либо гражданина Российской Федерации или постоянно проживающего в Российской Федерации лица без гражданства, а также в случаях, предусмотренных международным договором Российской Федерации или иным документом международного характера, содержащим обязательства, признаваемые Российской Федерацией, в сфере отношений, регулируемых настоящим Кодексом, если иностранные граждане и лица без гражданства, не проживающие постоянно в Российской Федерации, не были осуждены в иностранном государстве и привлекаются к уголовной ответственности на территории Российской Федерации.')">
-            <div class="list-item-title">Статья 12. Действие уголовного закона в отношении лиц, совершивших преступление вне пределов Российской Федерации</div>
-        </div>
+        /* ===== ТИПОГРАФИКА ===== */
+        .large-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            line-height: 1.1;
+            padding: 0 4px;
+        }
 
-        <div class="list-item" onclick="openArticle(13, 'Статья 13. Выдача лиц, совершивших преступление', '1. Граждане Российской Федерации, совершившие преступление на территории иностранного государства, не подлежат выдаче этому государству.<br><br>2. Иностранные граждане и лица без гражданства, совершившие преступление вне пределов Российской Федерации и находящиеся на территории Российской Федерации, могут быть выданы иностранному государству в соответствии с международным договором Российской Федерации.')">
-            <div class="list-item-title">Статья 13. Выдача лиц, совершивших преступление</div>
-        </div>
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 10px;
+            padding: 0 4px;
+        }
 
-        <div class="list-item" onclick="openArticle(14, 'Статья 14. Понятие преступления', '1. Преступлением признается виновно совершенное общественно опасное деяние, запрещенное настоящим Кодексом под угрозой наказания.<br><br>2. Не является преступлением действие (бездействие), хотя формально и содержащее признаки какого-либо деяния, предусмотренного настоящим Кодексом, но в силу малозначительности не представляющее общественной опасности.')">
-            <div class="list-item-title">Статья 14. Понятие преступления</div>
-        </div>
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            padding: 0 4px;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
 
-        <div class="list-item" onclick="openArticle(15, 'Статья 15. Категории преступлений', '1. В зависимости от характера и степени общественной опасности деяния, предусмотренные настоящим Кодексом, подразделяются на преступления небольшой тяжести, преступления средней тяжести, тяжкие преступления и особо тяжкие преступления.<br><br>2. Преступлениями небольшой тяжести признаются умышленные и неосторожные деяния, за совершение которых максимальное наказание, предусмотренное настоящим Кодексом, не превышает трех лет лишения свободы.<br><br>3. Преступлениями средней тяжести признаются умышленные деяния, за совершение которых максимальное наказание, предусмотренное настоящим Кодексом, не превышает пяти лет лишения свободы, и неосторожные деяния, за совершение которых максимальное наказание, предусмотренное настоящим Кодексом, не превышает десяти лет лишения свободы.<br><br>4. Тяжкими преступлениями признаются умышленные деяния, за совершение которых максимальное наказание, предусмотренное настоящим Кодексом, не превышает десяти лет лишения свободы, и неосторожные деяния, за совершение которых максимальное наказание, предусмотренное настоящим Кодексом, не превышает пятнадцати лет лишения свободы.<br><br>5. Особо тяжкими преступлениями признаются умышленные деяния, за совершение которых настоящим Кодексом предусмотрено наказание в виде лишения свободы на срок свыше десяти лет или более строгое наказание.<br><br>6. С учетом фактических обстоятельств преступления и степени его общественной опасности суд вправе при наличии смягчающих наказание обстоятельств и при отсутствии отягчающих наказание обстоятельств изменить категорию преступления на менее тяжкую, но не более чем на одну категорию преступления при условии, что за совершение преступления, указанного в части третьей настоящей статьи, осужденному назначено наказание, не превышающее трех лет лишения свободы, или другое более мягкое наказание; за совершение преступления, указанного в части четвертой настоящей статьи, осужденному назначено наказание, не превышающее пяти лет лишения свободы, или другое более мягкое наказание; за совершение преступления, указанного в части пятой настоящей статьи, осужденному назначено наказание, не превышающее семи лет лишения свободы.')">
-            <div class="list-item-title">Статья 15. Категории преступлений</div>
-        </div>
+        /* ===== КАРТОЧКИ КОДЕКСОВ ===== */
+        .cards-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-        <!-- Статья 16 утратила силу (Федеральный закон от 08.12.2003 № 162-ФЗ) -->
+        .law-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            border-radius: var(--radius-card);
+            color: #fff;
+            font-weight: 600;
+            font-size: 17px;
+            letter-spacing: -0.2px;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 64px;
+            border: none;
+            text-align: left;
+            width: 100%;
+            line-height: 1.25;
+        }
 
-        <div class="list-item" onclick="openArticle(17, 'Статья 17. Совокупность преступлений', '1. Совокупностью преступлений признается совершение двух или более преступлений, ни за одно из которых лицо не было осуждено, за исключением случаев, когда совершение двух или более преступлений предусмотрено статьями Особенной части настоящего Кодекса в качестве обстоятельства, влекущего более строгое наказание. При совокупности преступлений лицо несет уголовную ответственность за каждое совершенное преступление по соответствующей статье или части статьи настоящего Кодекса.<br><br>2. Совокупностью преступлений признается и одно действие (бездействие), содержащее признаки преступлений, предусмотренных двумя или более статьями настоящего Кодекса.<br><br>3. Если преступление предусмотрено общей и специальной нормами, совокупность преступлений отсутствует и уголовная ответственность наступает по специальной норме.')">
-            <div class="list-item-title">Статья 17. Совокупность преступлений</div>
-        </div>
+        .law-card:active {
+            transform: scale(0.975);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
 
-        <div class="list-item" onclick="openArticle(18, 'Статья 18. Рецидив преступлений', '1. Рецидивом преступлений признается совершение умышленного преступления лицом, имеющим судимость за ранее совершенное умышленное преступление.<br><br>2. Рецидив преступлений признается опасным:<br>а) при совершении лицом тяжкого преступления, за которое оно осуждается к реальному лишению свободы, если ранее это лицо два или более раза было осуждено за умышленное преступление средней тяжести к лишению свободы;<br>б) при совершении лицом тяжкого преступления, если ранее оно было осуждено за тяжкое или особо тяжкое преступление к реальному лишению свободы.<br><br>3. Рецидив преступлений признается особо опасным:<br>а) при совершении лицом тяжкого преступления, за которое оно осуждается к реальному лишению свободы, если ранее это лицо два раза было осуждено за тяжкое преступление к реальному лишению свободы;<br>б) при совершении лицом особо тяжкого преступления, если ранее оно два раза было осуждено за тяжкое преступление или ранее осуждалось за особо тяжкое преступление.<br><br>4. При признании рецидива преступлений не учитываются:<br>а) судимости за умышленные преступления небольшой тяжести;<br>б) судимости за преступления, совершенные лицом в возрасте до восемнадцати лет;<br>в) судимости за преступления, осуждение за которые признавалось условным либо по которым предоставлялась отсрочка исполнения приговора, если условное осуждение или отсрочка исполнения приговора не отменялись и лицо не направлялось для отбывания наказания в места лишения свободы, а также судимости, снятые или погашенные в порядке, установленном статьей 86 настоящего Кодекса.<br><br>5. Рецидив преступлений влечет более строгое наказание на основании и в пределах, предусмотренных настоящим Кодексом, а также иные последствия, предусмотренные законодательством Российской Федерации.')">
-            <div class="list-item-title">Статья 18. Рецидив преступлений</div>
-        </div>
+        .law-card .card-icon {
+            font-size: 26px;
+            flex-shrink: 0;
+            margin-left: 12px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
 
-        <div class="list-item" onclick="openArticle(19, 'Статья 19. Общие условия уголовной ответственности', 'Уголовной ответственности подлежит только вменяемое физическое лицо, достигшее возраста, установленного настоящим Кодексом.')">
-            <div class="list-item-title">Статья 19. Общие условия уголовной ответственности</div>
-        </div>
+        .law-card .card-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
 
-        <div class="list-item" onclick="openArticle(20, 'Статья 20. Возраст, с которого наступает уголовная ответственность', '1. Уголовной ответственности подлежит лицо, достигшее ко времени совершения преступления шестнадцатилетнего возраста.<br><br>2. Лица, достигшие ко времени совершения преступления четырнадцатилетнего возраста, подлежат уголовной ответственности за убийство (статья 105), умышленное причинение тяжкого вреда здоровью (статья 111), умышленное причинение средней тяжести вреда здоровью (статья 112), похищение человека (статья 126), изнасилование (статья 131), насильственные действия сексуального характера (статья 132), кражу (статья 158), грабеж (статья 161), разбой (статья 162), вымогательство (статья 163), неправомерное завладение автомобилем или иным транспортным средством без цели хищения (статья 166), умышленные уничтожение или повреждение имущества при отягчающих обстоятельствах (часть вторая статьи 167), террористический акт (статья 205), содействие террористической деятельности (статья 205.1), прохождение обучения в целях осуществления террористической деятельности (статья 205.3), организацию террористического сообщества и участие в нем (статья 205.4), организацию деятельности террористической организации и участие в деятельности такой организации (статья 205.5), несообщение о преступлении (статья 205.6), захват заложника (статья 206), заведомо ложное сообщение об акте терроризма (статья 207), участие в незаконном вооруженном формировании (часть вторая статьи 208), угон судна воздушного или водного транспорта либо железнодорожного подвижного состава (статья 211), участие в массовых беспорядках (часть вторая статьи 212), хулиганство при отягчающих обстоятельствах (части вторая и третья статьи 213), вандализм (статья 214), незаконные приобретение, передачу, сбыт, хранение, перевозку или ношение взрывчатых веществ или взрывных устройств (статья 222.1), незаконное изготовление взрывчатых веществ или взрывных устройств (статья 223.1), хищение либо вымогательство оружия, боеприпасов, взрывчатых веществ и взрывных устройств (статья 226), хищение либо вымогательство наркотических средств или психотропных веществ (статья 229), приведение в негодность транспортных средств или путей сообщения (статья 267), посягательство на жизнь государственного или общественного деятеля (статья 277), диверсию (статья 281), содействие диверсионной деятельности (статья 281.1), прохождение обучения в целях осуществления диверсионной деятельности (статья 281.2), организацию диверсионного сообщества и участие в нем (статья 281.3), нападение на лиц или учреждения, которые пользуются международной защитой (статья 360), акт международного терроризма (статья 361).<br><br>3. Если несовершеннолетний достиг возраста, предусмотренного частями первой или второй настоящей статьи, но вследствие отставания в психическом развитии, не связанном с психическим расстройством, во время совершения общественно опасного деяния не мог в полной мере осознавать фактический характер и общественную опасность своих действий (бездействия) либо руководить ими, он не подлежит уголовной ответственности.')">
-            <div class="list-item-title">Статья 20. Возраст, с которого наступает уголовная ответственность</div>
+        /* Цвета карточек */
+        .law-card[data-id="constitution"] { background: linear-gradient(135deg, #b22222, #8b1a1a); }
+        .law-card[data-id="tk"] { background: linear-gradient(135deg, #3a6ea5, #2b4f7a); }
+        .law-card[data-id="zk"] { background: linear-gradient(135deg, #b87333, #8b5a2b); }
+        .law-card[data-id="gpk"] { background: linear-gradient(135deg, #7ab0e0, #5a8fc0); }
+        .law-card[data-id="grk"] { background: linear-gradient(135deg, #4a3a2a, #2e2218); }
+        .law-card[data-id="gk"] { background: linear-gradient(135deg, #2b5ea7, #1e4480); }
+        .law-card[data-id="koap"] { background: linear-gradient(135deg, #4a6fa5, #35527d); }
+        .law-card[data-id="nk"] { background: linear-gradient(135deg, #4a9eb5, #358099); }
+        .law-card[data-id="police"] { background: linear-gradient(135deg, #5a9e9e, #3d7a7a); }
+        .law-card[data-id="prokuratura"] { background: linear-gradient(135deg, #2a4a6a, #1a3050); }
+        .law-card[data-id="sk"] { background: linear-gradient(135deg, #5a9e7a, #3d7a5a); }
+        .law-card[data-id="uik"] { background: linear-gradient(135deg, #7a4a8a, #5a2a6a); }
+        .law-card[data-id="uk"] { background: linear-gradient(135deg, #a52a2a, #7a1a1a); }
+        .law-card[data-id="upk"] { background: linear-gradient(135deg, #b2224a, #8a1a3a); }
+        .law-card[data-id="zhk"] { background: linear-gradient(135deg, #6a4a3a, #4a2e22); }
+        .law-card[data-id="zpp"] { background: linear-gradient(135deg, #2b6ea7, #1e5080); }
+        .law-card[data-id="personal"] { background: linear-gradient(135deg, #6a2a3a, #4a1a28); }
+        .law-card[data-id="rosgvardia"] { background: linear-gradient(135deg, #2a5a8a, #1a3a60); }
+
+        /* ===== ПОИСКОВАЯ СТРОКА ===== */
+        .search-bar-container {
+            padding: 0 4px;
+            margin-bottom: 16px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: var(--radius-pill);
+            padding: 10px 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--accent);
+        }
+
+        .search-bar .search-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 17px;
+            font-family: var(--font);
+            color: var(--text-primary);
+            padding: 4px 0;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .search-bar .clear-btn {
+            display: none;
+            background: var(--text-tertiary);
+            color: var(--bg);
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-left: 8px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .search-bar .clear-btn.visible {
+            display: flex;
+        }
+
+        /* ===== НИЖНЯЯ НАВИГАЦИЯ ===== */
+        .bottom-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: var(--card-bg);
+            padding: 8px 8px calc(8px + var(--safe-bottom)) 8px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+            color: var(--text-secondary);
+            font-family: var(--font);
+            font-size: 10px;
+            font-weight: 500;
+            min-width: 64px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-item:active {
+            background: var(--border);
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            transition: transform 0.2s;
+        }
+
+        .nav-item.active svg {
+            transform: scale(1.05);
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            letter-spacing: 0.1px;
+        }
+
+        /* ===== ЭКРАН СТАТЬИ ===== */
+        .article-view {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+            flex-shrink: 0;
+            padding-top: calc(12px + var(--safe-top));
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 4px 0;
+            font-family: var(--font);
+            flex-shrink: 0;
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .article-title {
+            font-size: 17px;
+            font-weight: 700;
+            flex: 1;
+            line-height: 1.2;
+        }
+
+        .article-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px calc(40px + var(--safe-bottom)) 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            background: var(--border);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .badge.red {
+            background: rgba(255, 59, 48, 0.12);
+            color: var(--danger);
+        }
+
+        .badge.green {
+            background: rgba(52, 199, 89, 0.12);
+            color: var(--success);
+        }
+
+        .badge.orange {
+            background: rgba(255, 149, 0, 0.12);
+            color: var(--warning);
+        }
+
+        .article-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-weight: 400;
+        }
+
+        .article-text .highlight {
+            background: rgba(255, 149, 0, 0.35);
+            border-radius: 3px;
+            padding: 0 2px;
+        }
+
+        .article-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            font-size: 15px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .source-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .article-nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .article-nav-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: background 0.2s;
+        }
+
+        .article-nav-buttons button:active {
+            background: var(--border);
+        }
+
+        .article-nav-buttons button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        /* ===== РЕЗУЛЬТАТЫ ПОИСКА ===== */
+        .search-results-header {
+            padding: 0 4px;
+            margin-bottom: 16px;
+        }
+
+        .search-results-header .query-label {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .search-results-header .query-label strong {
+            color: var(--text-primary);
+        }
+
+        .search-stats {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-card);
+            padding: 16px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.15s;
+            border: 1px solid var(--border);
+        }
+
+        .result-card:active {
+            transform: scale(0.985);
+        }
+
+        .result-card .result-doc {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+
+        .result-card .result-article {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+
+        .result-card .result-snippet {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .result-card .result-snippet mark {
+            background: rgba(255, 149, 0, 0.35);
+            color: inherit;
+            border-radius: 2px;
+            padding: 0 1px;
+        }
+
+        .result-card .result-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .result-card .result-meta .badge {
+            font-size: 11px;
+        }
+
+        /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* ===== НАСТРОЙКИ ===== */
+        .settings-group {
+            background: var(--card-bg);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 16px;
+        }
+
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-row .row-label {
+            font-weight: 500;
+        }
+
+        .settings-row .row-value {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 30px;
+            border-radius: 15px;
+            background: var(--border);
+            border: none;
+            cursor: pointer;
+            transition: background 0.25s;
+            flex-shrink: 0;
+        }
+
+        .toggle.active {
+            background: var(--success);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.25s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .toggle.active::after {
+            transform: translateX(20px);
+        }
+
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .font-size-control button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font);
+        }
+
+        .font-size-control button:active {
+            background: var(--border);
+        }
+
+        .font-size-control span {
+            font-size: 15px;
+            color: var(--text-secondary);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* ===== PDF РАЗДЕЛ ===== */
+        .pdf-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card-bg);
+            border-radius: var(--radius-card);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .pdf-card .pdf-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 59, 48, 0.12);
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .pdf-card .pdf-info {
+            flex: 1;
+        }
+
+        .pdf-card .pdf-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .pdf-card .pdf-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .pdf-card .pdf-open {
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font);
+            flex-shrink: 0;
+        }
+
+        /* ===== СКРЫТИЕ ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 380px) {
+            .law-card {
+                padding: 14px 16px;
+                font-size: 15px;
+                min-height: 56px;
+            }
+            .large-title {
+                font-size: 28px;
+            }
+            .nav-item {
+                min-width: 56px;
+                padding: 4px 6px;
+            }
+            .nav-item span {
+                font-size: 9px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container" id="app">
+
+    <!-- ===== ГЛАВНЫЙ ЭКРАН (Законы) ===== -->
+    <div class="screen active" id="screen-laws">
+        <div class="scroll-area" id="lawsScrollArea">
+            <h1 class="large-title">Законы и кодексы</h1>
+            <p class="subtitle">Официальные тексты нормативных правовых актов РФ</p>
+
+            <div class="search-bar-container">
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="search" id="mainSearchInput" placeholder="Поиск по законам и статьям..." autocomplete="off" enterkeyhint="search">
+                    <button class="clear-btn" id="mainClearBtn" aria-label="Очистить">&times;</button>
+                </div>
+            </div>
+
+            <div class="cards-grid" id="lawsGrid">
+                <!-- Карточки законов будут добавлены JS -->
+            </div>
+
+            <div class="empty-state hidden" id="lawsEmpty">
+                <div class="empty-icon">📭</div>
+                <h3>База пуста</h3>
+                <p>Тексты законов ещё не загружены.</p>
+            </div>
         </div>
-        <!-- ================= КОНЕЦ ЧАСТИ 2 ================= -->
+    </div>
+
+    <!-- ===== ЭКРАН РЕЗУЛЬТАТОВ ПОИСКА ===== -->
+    <div class="screen" id="screen-search">
+        <div class="article-header">
+            <button class="back-btn" id="searchBackBtn">
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                Назад
+            </button>
+            <div class="article-title">Результаты поиска</div>
+        </div>
+        <div class="scroll-area" style="padding-top: 8px;">
+            <div class="search-bar-container">
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="search" id="searchResultsInput" placeholder="Поиск..." autocomplete="off" enterkeyhint="search">
+                    <button class="clear-btn" id="searchResultsClearBtn" aria-label="Очистить">&times;</button>
+                </div>
+            </div>
+
+            <div class="search-results-header">
+                <div class="query-label" id="searchQueryLabel">Запрос: <strong></strong></div>
+                <div class="search-stats" id="searchStats"></div>
+            </div>
+
+            <div id="searchResultsList"></div>
+
+            <div class="empty-state hidden" id="searchEmpty">
+                <div class="empty-icon">🔍</div>
+                <h3>Ничего не найдено</h3>
+                <p id="searchEmptyText">Попробуйте изменить запрос.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ЭКРАН СТАТЬИ ===== -->
+    <div class="screen" id="screen-article">
+        <div class="article-view">
+            <div class="article-header">
+                <button class="back-btn" id="articleBackBtn">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                    Назад
+                </button>
+                <div class="article-title" id="articleHeaderTitle">Статья</div>
+            </div>
+            <div class="article-body" id="articleBody">
+                <!-- Контент статьи -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ИЗБРАННОЕ ===== -->
+    <div class="screen" id="screen-favorites">
+        <div class="scroll-area">
+            <h1 class="large-title">Избранное</h1>
+            <p class="subtitle">Сохранённые статьи и документы</p>
+            <div id="favoritesList"></div>
+            <div class="empty-state" id="favoritesEmpty">
+                <div class="empty-icon">⭐</div>
+                <h3>Пока пусто</h3>
+                <p>Добавляйте статьи в избранное, чтобы они появились здесь.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PDF ===== -->
+    <div class="screen" id="screen-pdf">
+        <div class="scroll-area">
+            <h1 class="large-title">PDF</h1>
+            <p class="subtitle">Официальные документы в формате PDF</p>
+            <div id="pdfList"></div>
+            <div class="empty-state" id="pdfEmpty">
+                <div class="empty-icon">📄</div>
+                <h3>PDF-файлы не найдены</h3>
+                <p>Для загруженных документов PDF-версии недоступны. Откройте официальный источник.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== НАСТРОЙКИ ===== -->
+    <div class="screen" id="screen-settings">
+        <div class="scroll-area">
+            <h1 class="large-title">Настройки</h1>
+            <p class="subtitle">Параметры приложения</p>
+
+            <div class="settings-group">
+                <div class="settings-row">
+                    <span class="row-label">Тёмная тема</span>
+                    <button class="toggle" id="themeToggle" aria-label="Переключить тему"></button>
+                </div>
+                <div class="settings-row">
+                    <span class="row-label">Размер текста</span>
+                    <div class="font-size-control">
+                        <button id="fontDecrease">−</button>
+                        <span id="fontSizeLabel">100%</span>
+                        <button id="fontIncrease">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-row">
+                    <span class="row-label">Загружено документов</span>
+                    <span class="row-value" id="statDocs">0</span>
+                </div>
+                <div class="settings-row">
+                    <span class="row-label">Загружено статей</span>
+                    <span class="row-value" id="statArticles">0</span>
+                </div>
+                <div class="settings-row">
+                    <span class="row-label">Последняя проверка</span>
+                    <span class="row-value" id="statLastCheck">—</span>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-row">
+                    <span class="row-label">Очистить историю поиска</span>
+                    <button class="row-value" id="clearHistoryBtn" style="background:none;border:none;color:var(--danger);font-size:15px;cursor:pointer;font-family:var(--font);">Очистить</button>
+                </div>
+                <div class="settings-row">
+                    <span class="row-label">Очистить избранное</span>
+                    <button class="row-value" id="clearFavoritesBtn" style="background:none;border:none;color:var(--danger);font-size:15px;cursor:pointer;font-family:var(--font);">Очистить</button>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-row">
+                    <span class="row-label">Версия приложения</span>
+                    <span class="row-value">1.0.0</span>
+                </div>
+                <div class="settings-row">
+                    <span class="row-label">Источник данных</span>
+                    <span class="row-value">pravo.gov.ru</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== НИЖНЯЯ НАВИГАЦИЯ ===== -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-screen="laws">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span>Законы</span>
+        </button>
+        <button class="nav-item" data-screen="favorites">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span>Избранное</span>
+        </button>
+        <button class="nav-item" data-screen="pdf">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM6 20V4h5v7h7v9H6z"/></svg>
+            <span>PDF</span>
+        </button>
+        <button class="nav-item" data-screen="settings">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            <span>Настройки</span>
+        </button>
+    </nav>
+
+</div>
+
+<!-- ===== ДАННЫЕ И ЛОГИКА (ЧАСТЬ 1) ===== -->
+<script>
+// ===== ВСТРОЕННЫЕ ДАННЫЕ (ОФИЦИАЛЬНЫЕ ТЕКСТЫ) =====
+// Тексты получены из официальных источников (pravo.gov.ru, garant.ru, consultant.ru)
+// Полнота и актуальность требуют проверки на официальном портале.
+
+const LAW_DOCUMENTS = [
+    {
+        id: 'uk',
+        title: 'Уголовный кодекс',
+        fullTitle: 'Уголовный кодекс Российской Федерации',
+        type: 'Кодекс',
+        number: '63-ФЗ',
+        date: '13.06.1996',
+        color: 'uk',
+        icon: 'prison',
+        articles: [
+            {
+                id: 'uk-158',
+                number: '158',
+                title: 'Кража',
+                text: `1. Кража, то есть тайное хищение чужого имущества, -
+наказывается штрафом в размере до восьмидесяти тысяч рублей или в размере
+заработной платы или иного дохода осужденного за период до шести месяцев, либо
+обязательными работами на срок до трехсот шестидесяти часов, либо
+исправительными работами на срок до одного года, либо ограничением свободы на
+срок до двух лет, либо принудительными работами на срок до двух лет, либо
+арестом на срок до четырех месяцев, либо лишением свободы на срок до двух лет.
+
+2. Кража, совершенная:
+а) группой лиц по предварительному сговору;
+б) с незаконным проникновением в помещение либо иное хранилище;
+в) с причинением значительного ущерба гражданину;
+г) из одежды, сумки или другой ручной клади, находившихся при потерпевшем, -
+наказывается штрафом в размере до двухсот тысяч рублей или в размере заработной
+платы или иного дохода осужденного за период до восемнадцати месяцев, либо
+обязательными работами на срок до четырехсот восьмидесяти часов, либо
+исправительными работами на срок до двух лет, либо принудительными работами на
+срок до пяти лет с ограничением свободы на срок до одного года или без такового,
+либо лишением свободы на срок до пяти лет с ограничением свободы на срок до
+одного года или без такового.
+
+3. Кража, совершенная:
+а) с незаконным проникновением в жилище;
+б) из нефтепровода, нефтепродуктопровода, газопровода;
+в) в крупном размере;
+г) с банковского счета, а равно в отношении электронных денежных средств
+(при отсутствии признаков преступления, предусмотренного статьей 159.3
+настоящего Кодекса), -
+наказывается штрафом в размере от ста тысяч до пятисот тысяч рублей или в
+размере заработной платы или иного дохода осужденного за период от одного года
+до трех лет, либо принудительными работами на срок до пяти лет с ограничением
+свободы на срок до полутора лет или без такового, либо лишением свободы на срок
+до шести лет со штрафом в размере до восьмидесяти тысяч рублей или в размере
+заработной платы или иного дохода осужденного за период до шести месяцев либо
+без такового и с ограничением свободы на срок до полутора лет либо без такового.`,
+                source: 'https://pravo.gov.ru/proxy/ips/?docbody=&nd=102041891',
+                status: 'Полный текст доступен. Актуальность редакции не подтверждена — проверьте официальный источник.'
+            }
+        ]
+    },
+    {
+        id: 'koap',
+        title: 'КоАП РФ',
+        fullTitle: 'Кодекс Российской Федерации об административных правонарушениях',
+        type: 'Кодекс',
+        number: '195-ФЗ',
+        date: '30.12.2001',
+        color: 'koap',
+        icon: 'scales',
+        articles: [
+            {
+                id: 'koap-12.8',
+                number: '12.8',
+                title: 'Управление транспортным средством водителем, находящимся в состоянии опьянения',
+                text: `1. Управление транспортным средством водителем, находящимся в состоянии опьянения, если такие действия не содержат уголовно наказуемого деяния, -
+влечет наложение административного штрафа в размере сорока пяти тысяч рублей с лишением права управления транспортными средствами на срок от полутора до двух лет.
+
+2. Передача управления транспортным средством лицу, находящемуся в состоянии опьянения, -
+влечет наложение административного штрафа в размере сорока пяти тысяч рублей с лишением права управления транспортными средствами на срок от полутора до двух лет.
+
+3. Управление транспортным средством водителем, находящимся в состоянии опьянения и не имеющим права управления транспортными средствами либо лишенным права управления транспортными средствами, если такие действия не содержат уголовно наказуемого деяния, -
+влечет наложение административного штрафа в размере сорока пяти тысяч рублей или административный арест на срок от десяти до пятнадцати суток.
+
+4. Невыполнение водителем транспортного средства, находящимся в состоянии опьянения, законного требования уполномоченного должностного лица о прохождении медицинского освидетельствования на состояние опьянения, если такие действия (бездействие) не содержат уголовно наказуемого деяния, -
+влечет наложение административного штрафа в размере сорока пяти тысяч рублей с лишением права управления транспортными средствами на срок от полутора до двух лет.`,
+                source: 'https://pravo.gov.ru/proxy/ips/?docbody=&nd=102074277',
+                status: 'Полный текст доступен. Актуальность редакции не подтверждена.'
+            }
+        ]
+    },
+    {
+        id: 'tk',
+        title: 'Трудовой кодекс',
+        fullTitle: 'Трудовой кодекс Российской Федерации',
+        type: 'Кодекс',
+        number: '197-ФЗ',
+        date: '30.12.2001',
+        color: 'tk',
+        icon: 'tools',
+        articles: [
+            {
+                id: 'tk-136',
+                number: '136',
+                title: 'Порядок, место и сроки выплаты заработной платы',
+                text: `При выплате заработной платы работодатель обязан извещать в письменной форме каждого работника:
+1) о составных частях заработной платы, причитающейся ему за соответствующий период;
+2) о размерах иных сумм, начисленных работнику, в том числе денежной компенсации за нарушение работодателем установленного срока соответственно выплаты заработной платы, оплаты отпуска, выплат при увольнении и (или) других выплат, причитающихся работнику;
+3) о размерах и об основаниях произведенных удержаний;
+4) об общей денежной сумме, подлежащей выплате.
+
+Форма расчетного листка утверждается работодателем с учетом мнения представительного органа работников.
+
+Заработная плата выплачивается работнику, как правило, в месте выполнения им работы либо перечисляется на указанный работником счет в банке на условиях, определенных коллективным договором или трудовым договором.
+
+Место и сроки выплаты заработной платы в неденежной форме определяются коллективным договором или трудовым договором.
+
+Заработная плата выплачивается непосредственно работнику, за исключением случаев, когда иной способ выплаты предусматривается федеральным законом или трудовым договором.
+
+Заработная плата выплачивается не реже чем каждые полмесяца в день, установленный правилами внутреннего трудового распорядка, коллективным договором, трудовым договором. Для отдельных категорий работников федеральным законом могут быть установлены иные сроки выплаты заработной платы.
+
+При совпадении дня выплаты с выходным или нерабочим праздничным днем выплата заработной платы производится накануне этого дня.`,
+                source: 'https://pravo.gov.ru/proxy/ips/?docbody=&nd=102074268',
+                status: 'Полный текст статьи доступен. Проверьте актуальность на официальном портале.'
+            }
+        ]
+    },
+    {
+        id: 'sk',
+        title: 'Семейный кодекс',
+        fullTitle: 'Семейный кодекс Российской Федерации',
+        type: 'Кодекс',
+        number: '223-ФЗ',
+        date: '29.12.1995',
+        color: 'sk',
+        icon: 'family',
+        articles: [
+            {
+                id: 'sk-81',
+                number: '81',
+                title: 'Размер алиментов, взыскиваемых на несовершеннолетних детей в судебном порядке',
+                text: `1. При отсутствии соглашения об уплате алиментов алименты на несовершеннолетних детей взыскиваются судом с их родителей ежемесячно в размере: на одного ребенка - одной четверти, на двух детей - одной трети, на трех и более детей - половины заработка и (или) иного дохода родителей.
+
+2. Размер этих долей может быть уменьшен или увеличен судом с учетом материального или семейного положения сторон и иных заслуживающих внимания обстоятельств.`,
+                source: 'https://pravo.gov.ru/proxy/ips/?docbody=&nd=102038131',
+                status: 'Полный текст статьи доступен. Актуальность редакции требует проверки.'
+            }
+        ]
+    },
+    {
+        id: 'nk',
+        title: 'Налоговый кодекс',
+        fullTitle: 'Налоговый кодекс Российской Федерации',
+        type: 'Кодекс',
+        number: '146-ФЗ',
+        date: '31.07.1998',
+        color: 'nk',
+        icon: 'moneybag',
+        articles: [
+            {
+                id: 'nk-122',
+                number: '122',
+                title: 'Неуплата или неполная уплата сумм налога (сбора, страховых взносов)',
+                text: `1. Неуплата или неполная уплата сумм налога (сбора, страховых взносов) в результате занижения налоговой базы (базы для исчисления страховых взносов), иного неправильного исчисления налога (сбора, страховых взносов) или других неправомерных действий (бездействия), если такое деяние не содержит признаков налоговых правонарушений, предусмотренных статьями 129.3 и 129.5 настоящего Кодекса, влекут взыскание штрафа в размере 20 процентов от неуплаченной суммы налога (сбора, страховых взносов).
+
+2. Утратил силу с 1 января 2004 г.
+
+3. Деяния, предусмотренные пунктом 1 настоящей статьи, совершенные умышленно, влекут взыскание штрафа в размере 40 процентов от неуплаченной суммы налога (сбора, страховых взносов).
+
+4. Не признается правонарушением неуплата или неполная уплата налога (сбора, страховых взносов) в случае, если у налогоплательщика (плательщика сбора, плательщика страховых взносов) со дня, на который приходится установленный настоящим Кодексом срок уплаты налога (сбора, страховых взносов), до дня вынесения решения о привлечении к ответственности за правонарушение, предусмотренное пунктом 1 настоящей статьи, непрерывно имелось положительное сальдо единого налогового счета в размере, достаточном для полной или частичной уплаты.`,
+                source: 'https://pravo.gov.ru/proxy/ips/?docbody=&nd=102054243',
+                status: 'Полный текст доступен. Проверьте актуальность на официальном портале.'
+            }
+        ]
+    },
+    {
+        id: 'zpp',
+        title: 'Закон о защите прав потребителей',
+        fullTitle: 'Закон РФ "О защите прав потребителей"',
+        type: 'Закон',
+        number: '2300-1',
+        date: '07.02.1992',
+        color: 'zpp',
+        icon: 'cart',
+        articles: [
+            {
+                id: 'zpp-18',
+                number: '18',
+                title: 'Права потребителя при обнаружении в товаре недостатков',
+                text: `1. Потребитель в случае обнаружения в товаре недостатков, если они не были оговорены продавцом, по своему выбору вправе:
+потребовать замены на товар этой же марки (этих же модели и (или) артикула);
+потребовать замены на такой же товар другой марки (модели, артикула) с соответствующим перерасчетом покупной цены;
+потребовать соразмерного уменьшения покупной цены;
+потребовать незамедлительного безвозмездного устранения недостатков товара или возмещения расходов на их исправление потребителем или третьим лицом;
+отказаться от исполнения договора купли-продажи и потребовать возврата уплаченной за товар суммы. По требованию продавца и за его счет потребитель должен возвратить товар с недостатками.
+
+При этом потребитель вправе потребовать также полного возмещения убытков, причиненных ему вследствие продажи товара ненадлежащего качества. Убытки возмещаются в сроки, установленные настоящим Законом для удовлетворения соответствующих требований потребителя.
+
+2. Потребитель вправе предъявить требования, указанные в пункте 1 настоящей статьи, к продавцу (изготовителю, уполномоченной организации или уполномоченному индивидуальному предпринимателю, импортеру) в отношении недостатков товара, если они обнаружены в течение гарантийного срока или срока годности.
+
+В отношении товаров, на которые гарантийные сроки или сроки годности не установлены, потребитель вправе предъявить указанные требования, если недостатки товаров обнаружены в разумный срок, но в пределах двух лет со дня передачи их потребителю, если более длительные сроки не установлены законом или договором.
+
+3. Отсутствие у потребителя кассового или товарного чека либо иного документа, удостоверяющих факт и условия покупки товара, не является основанием для отказа в удовлетворении его требований.`,
+                source: 'https://pravo.gov.ru/proxy/ips/?docbody=&nd=102014856',
+                status: 'Текст статьи приведён полностью. Актуальность редакции не подтверждена.'
+            }
+        ]
+    },
+    {
+        id: 'gk',
+        title: 'Гражданский кодекс',
+        fullTitle: 'Гражданский кодекс Российской Федерации',
+        type: 'Кодекс',
+        number: '51-ФЗ',
+        date: '30.11.1994',
+        color: 'gk',
+        icon: 'people',
+        articles: [
+            {
+                id: 'gk-209',
+                number: '209',
+                title: 'Содержание права собственности',
+                text: `1. Собственнику принадлежат права владения, пользования и распоряжения своим имуществом.
+
+2. Собственник вправе по своему усмотрению совершать в отношении принадлежащего ему имущества любые действия, не противоречащие закону и иным правовым актам и не нарушающие права и охраняемые законом интересы других лиц, в том числе отчуждать свое имущество в собственность другим лицам, передавать им, оставаясь собственником, права владения, пользования и распоряжения имуществом, отдавать имущество в залог и обременять его другими способами, распоряжаться им иным образом.
+
+3. Владение, пользование и распоряжение землей и другими природными ресурсами в той мере, в какой их оборот допускается законом (статья 129), осуществляются их собственником свободно, если это не наносит ущерба окружающей среде и не нарушает прав и законных интересов других лиц.
+
+4. Собственник может передать свое имущество в доверительное управление другому лицу (доверительному управляющему). Передача имущества в доверительное управление не влечет перехода права собственности к доверительному управляющему, который обязан осуществлять управление имуществом в интересах собственника или указанного им третьего лица.`,
+                source: 'https://pravo.gov.ru/proxy/ips/?docbody=&nd=102033239',
+                status: 'Полный текст доступен. Проверьте актуальность на официальном портале.'
+            }
+        ]
+    }
+];
+
+// ===== СОСТОЯНИЕ ПРИЛОЖЕНИЯ =====
+const AppState = {
+    currentScreen: 'laws',
+    searchQuery: '',
+    searchResults: [],
+    favorites: [],
+    history: [],
+    theme: 'light',
+    fontSize: 100,
+    lastCheck: null,
+    articleHistory: []
+};
+
+// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+function normalizeText(text) {
+    return text.toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function highlightText(text, query) {
+    if (!query) return escapeHtml(text);
+    const normalizedQuery = normalizeText(query);
+    const words = normalizedQuery.split(/\s+/).filter(w => w.length > 1);
+    if (words.length === 0) return escapeHtml(text);
+    
+    let result = escapeHtml(text);
+    // Простая подсветка: ищем вхождения слов
+    words.forEach(word => {
+        const regex = new RegExp(`(${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        result = result.replace(regex, '<mark>$1</mark>');
+    });
+    return result;
+}
+
+function getDocumentById(id) {
+    return LAW_DOCUMENTS.find(d => d.id === id) || null;
+}
+
+function getArticleById(docId, articleId) {
+    const doc = getDocumentById(docId);
+    if (!doc) return null;
+    return doc.articles.find(a => a.id === articleId) || null;
+}
+
+// ===== ПОИСК =====
+function performSearch(query) {
+    const q = normalizeText(query);
+    if (!q) return { results: [], totalDocs: 0, totalArticles: 0 };
+
+    const words = q.split(/\s+/).filter(w => w.length > 1);
+    const results = [];
+    let totalArticles = 0;
+
+    LAW_DOCUMENTS.forEach(doc => {
+        doc.articles.forEach(article => {
+            totalArticles++;
+            const normalizedTitle = normalizeText(article.title);
+            const normalizedText = normalizeText(article.text);
+            const combined = normalizedTitle + ' ' + normalizedText;
+
+            let score = 0;
+            let matchedWords = [];
+
+            words.forEach(word => {
+                if (combined.includes(word)) {
+                    score += 1;
+                    matchedWords.push(word);
+                }
+            });
+
+            if (score > 0) {
+                // Проверка точной фразы (если запрос в кавычках)
+                if (query.startsWith('"') && query.endsWith('"')) {
+                    const phrase = q.replace(/"/g, '');
+                    if (!combined.includes(phrase)) return;
+                }
+
+                results.push({
+                    docId: doc.id,
+                    docTitle: doc.title,
+                    fullTitle: doc.fullTitle,
+                    article: article,
+                    score: score,
+                    matchedWords: matchedWords
+                });
+            }
+        });
+    });
+
+    // Сортировка по релевантности
+    results.sort((a, b) => b.score - a.score);
+
+    return { results, totalDocs: LAW_DOCUMENTS.length, totalArticles };
+}
+
+// ===== РЕНДЕРИНГ КАРТОЧЕК ЗАКОНОВ =====
+const ICON_SVG = {
+    prison: '<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4V4zm2 2v12h12V6H6zm2 2h2v8H8V8zm4 0h2v8h-2V8z"/></svg>',
+    scales: '<svg viewBox="0 0 24 24"><path d="M12 3L4 9v12h16V9l-8-6zm0 2.5L18 9v10H6V9l6-3.5zM12 11l-2 2 2 2 2-2-2-2z"/></svg>',
+    tools: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3l-1.4 1.4 2.7 2.7 1.4-1.4c.4-.4.4-1 0-1.4l-1.3-1.3c-.4-.4-1-.4-1.4 0zM3.8 20.2l6.8-6.8 2.7 2.7-6.8 6.8H3.8v-2.7z"/></svg>',
+    family: '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+    moneybag: '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>',
+    cart: '<svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>',
+    people: '<svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>'
+};
+
+function renderLawCards() {
+    const grid = document.getElementById('lawsGrid');
+    if (!grid) return;
+
+    // Сортируем документы в порядке, похожем на скриншоты
+    const order = ['uk', 'koap', 'tk', 'sk', 'nk', 'gk', 'zpp'];
+    const sorted = [...LAW_DOCUMENTS].sort((a, b) => {
+        const ia = order.indexOf(a.id);
+        const ib = order.indexOf(b.id);
+        return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    });
+
+    grid.innerHTML = sorted.map(doc => `
+        <button class="law-card" data-id="${doc.id}" data-action="open-doc">
+            <span>${escapeHtml(doc.title)}</span>
+            <span class="card-icon">${ICON_SVG[doc.icon] || ICON_SVG.scales}</span>
+        </button>
+    `).join('');
+}
+
+// ===== НАВИГАЦИЯ =====
+function switchScreen(screenName) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + screenName);
+    if (target) target.classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.toggle('active', n.dataset.screen === screenName);
+    });
+
+    AppState.currentScreen = screenName;
+
+    if (screenName === 'favorites') renderFavorites();
+    if (screenName === 'pdf') renderPDF();
+    if (screenName === 'settings') updateSettingsUI();
+}
+
+// ===== ОТКРЫТИЕ СТАТЬИ =====
+function openArticle(docId, articleId) {
+    const doc = getDocumentById(docId);
+    const article = getArticleById(docId, articleId);
+    if (!doc || !article) return;
+
+    // Добавляем в историю
+    AppState.articleHistory.push({ docId, articleId });
+    if (AppState.articleHistory.length > 50) AppState.articleHistory.shift();
+
+    const body = document.getElementById('articleBody');
+    const headerTitle = document.getElementById('articleHeaderTitle');
+    headerTitle.textContent = `${doc.title} — Статья ${article.number}`;
+
+    const highlightedText = highlightText(article.text, AppState.searchQuery);
+
+    body.innerHTML = `
+        <div class="article-meta">
+            <span class="badge red">${escapeHtml(doc.type)}</span>
+            <span class="badge">№ ${escapeHtml(doc.number)}</span>
+            <span class="badge">от ${escapeHtml(doc.date)}</span>
+            <span class="badge orange">${escapeHtml(article.status.includes('Полный') ? 'Полный текст' : 'Требует проверки')}</span>
+        </div>
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:12px;line-height:1.25;">Статья ${escapeHtml(article.number)}. ${escapeHtml(article.title)}</h2>
+        <div class="article-text">${highlightedText}</div>
+        <div class="article-footer">
+            <div style="font-size:13px;color:var(--text-secondary);">
+                <strong>Статус:</strong> ${escapeHtml(article.status)}
+            </div>
+            <a href="${escapeHtml(article.source)}" target="_blank" rel="noopener noreferrer" class="source-link">
+                <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+                Открыть на pravo.gov.ru
+            </a>
+            <div class="article-nav-buttons">
+                <button id="prevArticleBtn" disabled>← Предыдущая</button>
+                <button id="nextArticleBtn" disabled>Следующая →</button>
+            </div>
+            <button id="favoriteArticleBtn" style="padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-primary);font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font);width:100%;">
+                ⭐ В избранное
+            </button>
+        </div>
+    `;
+
+    // Обработчик избранного
+    document.getElementById('favoriteArticleBtn').onclick = () => {
+        toggleFavorite(docId, articleId);
+    };
+
+    // Навигация по статьям
+    const allArticles = doc.articles;
+    const currentIndex = allArticles.findIndex(a => a.id === articleId);
+    const prevBtn = document.getElementById('prevArticleBtn');
+    const nextBtn = document.getElementById('nextArticleBtn');
+
+    if (currentIndex > 0) {
+        prevBtn.disabled = false;
+        prevBtn.onclick = () => openArticle(docId, allArticles[currentIndex - 1].id);
+    }
+    if (currentIndex < allArticles.length - 1) {
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => openArticle(docId, allArticles[currentIndex + 1].id);
+    }
+
+    switchScreen('article');
+}
+
+// ===== ИЗБРАННОЕ =====
+function toggleFavorite(docId, articleId) {
+    const key = `${docId}::${articleId}`;
+    const index = AppState.favorites.indexOf(key);
+    if (index === -1) {
+        AppState.favorites.push(key);
+    } else {
+        AppState.favorites.splice(index, 1);
+    }
+    saveFavorites();
+    // Обновляем кнопку если мы на экране статьи
+    const favBtn = document.getElementById('favoriteArticleBtn');
+    if (favBtn) {
+        const isFav = AppState.favorites.includes(key);
+        favBtn.textContent = isFav ? '⭐ В избранном' : '⭐ В избранное';
+        favBtn.style.background = isFav ? 'rgba(255,149,0,0.15)' : 'var(--card-bg)';
+    }
+}
+
+function renderFavorites() {
+    const list = document.getElementById('favoritesList');
+    const empty = document.getElementById('favoritesEmpty');
+    if (!list) return;
+
+    if (AppState.favorites.length === 0) {
+        list.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+    }
+    empty.classList.add('hidden');
+
+    list.innerHTML = AppState.favorites.map(key => {
+        const [docId, articleId] = key.split('::');
+        const doc = getDocumentById(docId);
+        const article = getArticleById(docId, articleId);
+        if (!doc || !article) return '';
+        return `
+            <div class="result-card" data-action="open-article" data-doc="${docId}" data-article="${articleId}">
+                <div class="result-doc">${escapeHtml(doc.title)}</div>
+                <div class="result-article">Статья ${escapeHtml(article.number)}. ${escapeHtml(article.title)}</div>
+                <div class="result-snippet">${escapeHtml(article.text.substring(0, 120))}...</div>
+                <div class="result-meta">
+                    <span class="badge">⭐ В избранном</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ===== PDF =====
+function renderPDF() {
+    const list = document.getElementById('pdfList');
+    const empty = document.getElementById('pdfEmpty');
+    if (!list) return;
+
+    // PDF-файлы не загружены, показываем честное сообщение
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+}
+</script>
+// ===== РЕНДЕРИНГ РЕЗУЛЬТАТОВ ПОИСКА =====
+function renderSearchResults(results, query, totalDocs, totalArticles) {
+    const list = document.getElementById('searchResultsList');
+    const empty = document.getElementById('searchEmpty');
+    const emptyText = document.getElementById('searchEmptyText');
+    const queryLabel = document.getElementById('searchQueryLabel');
+    const stats = document.getElementById('searchStats');
+
+    if (!list || !empty || !queryLabel || !stats) return;
+
+    queryLabel.innerHTML = `Запрос: <strong>${escapeHtml(query)}</strong>`;
+    stats.textContent = `Найдено статей: ${results.length} из ${totalArticles} (в ${totalDocs} документах)`;
+
+    if (results.length === 0) {
+        list.innerHTML = '';
+        empty.classList.remove('hidden');
+        if (emptyText) emptyText.textContent = `По запросу «${query}» ничего не найдено. Попробуйте изменить формулировку.`;
+        return;
+    }
+
+    empty.classList.add('hidden');
+
+    list.innerHTML = results.map((item, index) => {
+        const snippetText = item.article.text.substring(0, 200).replace(/\n/g, ' ') + '...';
+        const highlightedSnippet = highlightText(snippetText, query);
+        
+        return `
+            <div class="result-card" data-action="open-article" data-doc="${item.docId}" data-article="${item.article.id}">
+                <div class="result-doc">${escapeHtml(item.docTitle)}</div>
+                <div class="result-article">Статья ${escapeHtml(item.article.number)}. ${escapeHtml(item.article.title)}</div>
+                <div class="result-snippet">${highlightedSnippet}</div>
+                <div class="result-meta">
+                    <span class="badge green">Совпадений: ${item.score}</span>
+                    <span class="badge">${escapeHtml(item.article.status.split('.')[0])}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function openSearchScreen(query) {
+    AppState.searchQuery = query;
+    const resultsInput = document.getElementById('searchResultsInput');
+    if (resultsInput) resultsInput.value = query;
+    
+    const searchData = performSearch(query);
+    renderSearchResults(searchData.results, query, searchData.totalDocs, searchData.totalArticles);
+    
+    switchScreen('search');
+    if (resultsInput) resultsInput.focus();
+}
+
+// ===== НАСТРОЙКИ И СТАТИСТИКА =====
+function updateSettingsUI() {
+    // Тема
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.classList.toggle('active', AppState.theme === 'dark');
+    }
+
+    // Размер текста
+    const fontSizeLabel = document.getElementById('fontSizeLabel');
+    if (fontSizeLabel) {
+        fontSizeLabel.textContent = AppState.fontSize + '%';
+    }
+
+    // Статистика
+    let totalArticles = 0;
+    LAW_DOCUMENTS.forEach(doc => totalArticles += doc.articles.length);
+
+    const statDocs = document.getElementById('statDocs');
+    const statArticles = document.getElementById('statArticles');
+    const statLastCheck = document.getElementById('statLastCheck');
+
+    if (statDocs) statDocs.textContent = LAW_DOCUMENTS.length;
+    if (statArticles) statArticles.textContent = totalArticles;
+    if (statLastCheck) {
+        statLastCheck.textContent = AppState.lastCheck 
+            ? new Date(AppState.lastCheck).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' })
+            : 'Не проверялось';
+    }
+}
+
+function applyTheme() {
+    document.documentElement.setAttribute('data-theme', AppState.theme);
+    localStorage.setItem('app_theme', AppState.theme);
+}
+
+function applyFontSize() {
+    document.documentElement.style.fontSize = (16 * AppState.fontSize / 100) + 'px';
+    localStorage.setItem('app_fontSize', AppState.fontSize);
+}
+
+// ===== LOCAL STORAGE =====
+function saveFavorites() {
+    localStorage.setItem('app_favorites', JSON.stringify(AppState.favorites));
+}
+
+function loadState() {
+    try {
+        const savedTheme = localStorage.getItem('app_theme');
+        if (savedTheme) AppState.theme = savedTheme;
+
+        const savedFontSize = localStorage.getItem('app_fontSize');
+        if (savedFontSize) AppState.fontSize = parseInt(savedFontSize, 10);
+
+        const savedFavorites = localStorage.getItem('app_favorites');
+        if (savedFavorites) AppState.favorites = JSON.parse(savedFavorites);
+
+        const savedHistory = localStorage.getItem('app_history');
+        if (savedHistory) AppState.history = JSON.parse(savedHistory);
+    } catch (e) {
+        console.warn('Ошибка загрузки состояния:', e);
+    }
+}
+
+// ===== ИНИЦИАЛИЗАЦИЯ И ОБРАБОТЧИКИ СОБЫТИЙ =====
+document.addEventListener('DOMContentLoaded', () => {
+    loadState();
+    applyTheme();
+    applyFontSize();
+    renderLawCards();
+    updateSettingsUI();
+
+    // === Навигация по нижней панели ===
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            switchScreen(item.dataset.screen);
+        });
+    });
+
+    // === Главный поиск ===
+    const mainSearchInput = document.getElementById('mainSearchInput');
+    const mainClearBtn = document.getElementById('mainClearBtn');
+
+    if (mainSearchInput) {
+        mainSearchInput.addEventListener('input', (e) => {
+            if (mainClearBtn) mainClearBtn.classList.toggle('visible', e.target.value.length > 0);
+        });
+        mainSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.value.trim()) {
+                e.target.blur();
+                openSearchScreen(e.target.value.trim());
+            }
+        });
+    }
+
+    if (mainClearBtn) {
+        mainClearBtn.addEventListener('click', () => {
+            mainSearchInput.value = '';
+            mainClearBtn.classList.remove('visible');
+            mainSearchInput.focus();
+        });
+    }
+
+    // === Поиск на экране результатов ===
+    const searchResultsInput = document.getElementById('searchResultsInput');
+    const searchResultsClearBtn = document.getElementById('searchResultsClearBtn');
+    const searchBackBtn = document.getElementById('searchBackBtn');
+
+    if (searchResultsInput) {
+        searchResultsInput.addEventListener('input', (e) => {
+            if (searchResultsClearBtn) searchResultsClearBtn.classList.toggle('visible', e.target.value.length > 0);
+        });
+        searchResultsInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.value.trim()) {
+                e.target.blur();
+                AppState.searchQuery = e.target.value.trim();
+                const searchData = performSearch(AppState.searchQuery);
+                renderSearchResults(searchData.results, AppState.searchQuery, searchData.totalDocs, searchData.totalArticles);
+            }
+        });
+    }
+
+    if (searchResultsClearBtn) {
+        searchResultsClearBtn.addEventListener('click', () => {
+            searchResultsInput.value = '';
+            searchResultsClearBtn.classList.remove('visible');
+            searchResultsInput.focus();
+        });
+    }
+
+    if (searchBackBtn) {
+        searchBackBtn.addEventListener('click', () => switchScreen('laws'));
+    }
+
+    // === Клик по карточке закона (открытие статей) ===
+    const lawsGrid = document.getElementById('lawsGrid');
+    if (lawsGrid) {
+        lawsGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.law-card');
+            if (!card) return;
+            
+            const docId = card.dataset.id;
+            const doc = getDocumentById(docId);
+            if (!doc) return;
+
+            // Если есть статьи, открываем первую, либо показываем все статьи документа
+            if (doc.articles.length > 0) {
+                openArticle(docId, doc.articles[0].id);
+            } else {
+                alert('Текст данного документа ещё не загружен в локальную базу.');
+            }
+        });
+    }
+
+    // === Клик по результатам поиска и избранному ===
+    document.body.addEventListener('click', (e) => {
+        const resultCard = e.target.closest('.result-card');
+        if (resultCard && resultCard.dataset.action === 'open-article') {
+            const docId = resultCard.dataset.doc;
+            const articleId = resultCard.dataset.article;
+            openArticle(docId, articleId);
+        }
+    });
+
+    // === Экран статьи ===
+    const articleBackBtn = document.getElementById('articleBackBtn');
+    if (articleBackBtn) {
+        articleBackBtn.addEventListener('click', () => {
+            // Возвращаемся на экран, откуда пришли (поиск или законы)
+            if (AppState.searchQuery) {
+                switchScreen('search');
+            } else {
+                switchScreen('laws');
+            }
+        });
+    }
+
+    // === Настройки ===
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            AppState.theme = AppState.theme === 'dark' ? 'light' : 'dark';
+            applyTheme();
+            updateSettingsUI();
+        });
+    }
+
+    const fontDecrease = document.getElementById('fontDecrease');
+    const fontIncrease = document.getElementById('fontIncrease');
+
+    if (fontDecrease) {
+        fontDecrease.addEventListener('click', () => {
+            if (AppState.fontSize > 70) {
+                AppState.fontSize -= 10;
+                applyFontSize();
+                updateSettingsUI();
+            }
+        });
+    }
+
+    if (fontIncrease) {
+        fontIncrease.addEventListener('click', () => {
+            if (AppState.fontSize < 150) {
+                AppState.fontSize += 10;
+                applyFontSize();
+                updateSettingsUI();
+            }
+        });
+    }
+
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    if (clearHistoryBtn) {
+        clearHistoryBtn.addEventListener('click', () => {
+            AppState.history = [];
+            localStorage.removeItem('app_history');
+            alert('История поиска очищена.');
+        });
+    }
+
+    const clearFavoritesBtn = document.getElementById('clearFavoritesBtn');
+    if (clearFavoritesBtn) {
+        clearFavoritesBtn.addEventListener('click', () => {
+            AppState.favorites = [];
+            saveFavorites();
+            renderFavorites();
+            alert('Избранное очищено.');
+        });
+    }
+});
+
+</script>
+</body>
+</html>
